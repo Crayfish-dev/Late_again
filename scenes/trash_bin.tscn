@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://dt33edf43mah5"]
+
+[ext_resource type="Texture2D" uid="uid://djm3ysso8v3x6" path="res://assets/trash_bin.png" id="1_yoqf0"]
+[ext_resource type="PackedScene" uid="uid://fcgrfe7mnel0" path="res://scenes/damage_box.tscn" id="2_ekmuy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pqu8d"]
+size = Vector2(7, 10)
+
+[node name="TrashBin" type="StaticBody2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_yoqf0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, 2)
+shape = SubResource("RectangleShape2D_pqu8d")
+
+[node name="DamageBox" parent="." instance=ExtResource("2_ekmuy")]
+position = Vector2(-3, 8)
+scale = Vector2(0.6, 0.6)
