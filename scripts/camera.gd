@@ -21,3 +21,20 @@ func _process(delta: float) -> void:
 		last_health = player.health
 
 	position.x = player.position.x + 140
+	
+
+
+
+func _on_move_pressed() -> void:
+	if player.direction == 0:
+		player.direction = 1
+	elif player.direction == 1:
+		player.direction = 0
+
+
+func _on_jump_pressed() -> void:
+	player.jump()
+
+
+func _on_slide_pressed() -> void:
+	player.is_sliding = true

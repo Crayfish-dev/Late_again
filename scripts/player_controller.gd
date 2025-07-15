@@ -12,7 +12,8 @@ class_name PlayerController
 @onready var damage_timer: Timer = $DamageTimer
 @onready var slide_shape: CollisionShape2D = $Slide_shape
 @onready var slide_timer: Timer = $SlideTimer
-
+@onready var sprite: AnimatedSprite2D = $PlayerVisuals/AnimatedSprite2D
+var stunned = false
 
 var damaged = false
 var jump_multiplier = -30.0
@@ -82,11 +83,7 @@ func _physics_process(delta: float) -> void:
 func _input(event):
 	# Handle jump
 	if event.is_action_pressed("jump") and is_on_floor():
-		while is_sliding:
-			velocity.x = 1.6 * max_speed * direction
-			velocity.y = jump_power * jump_multiplier
-			is_sliding = false
-		velocity.y = jump_power * jump_multiplier
+		jump()
 
 func take_damage(damage, knokback, time):
 	is_sliding = false
@@ -98,6 +95,18 @@ func take_damage(damage, knokback, time):
 		health -= damage
 	velocity.x = -knokback
 	
+func stun(knokback, dir, time):
+	stunned = true
+	velocity.x = -knokback
+	direction = dir
+	await get_tree().create_timer(0.4).timeout
+	can_move = false
+	stunned = false
+	await get_tree().create_timer(time).timeout
+	can_move = true
+	direction = 1
+
+
 func die(time, jump):
 	is_dead = true
 	stop()
@@ -121,3 +130,10 @@ func _on_damage_timer_timeout() -> void:
 
 func _on_slide_timer_timeout() -> void:
 	is_sliding = false
+
+func jump():
+	while is_sliding:
+		velocity.x = 1.6 * max_speed * direction
+		velocity.y = jump_power * jump_multiplier
+		is_sliding = false
+	velocity.y = jump_power * jump_multiplier

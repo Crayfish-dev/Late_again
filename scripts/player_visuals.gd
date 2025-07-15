@@ -29,3 +29,6 @@ func _process(delta: float) -> void:
 	
 	if player_controller.is_sliding == true:
 		animation.play("slide")
+
+	if player_controller.stunned == true:
+		animation.play("stun")
